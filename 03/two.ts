@@ -1,4 +1,4 @@
-import { PartNumber, PartSymbol, findNumbers, findSymbols } from "./common.ts";
+import { findNumbers, findSymbols } from "./common.ts";
 
 type Gear = {
   n1: number;
@@ -6,9 +6,11 @@ type Gear = {
   position: [number, number];
 };
 
-const input = await Deno.readTextFile("./test.txt");
+const input = await Deno.readTextFile("./input.txt");
 
-console.log(findGears(input));
+const gears = findGears(input);
+console.log(gears);
+console.log(gears.reduce((acc, g) => acc + g.n1 * g.n2, 0));
 
 function findGears(input: string) {
   const asterisks = findSymbols(input).filter((s) => s.char === "*");
@@ -21,16 +23,18 @@ function findGears(input: string) {
       const right = a.position[0] + 1;
       const bottom = a.position[1] + 1;
 
-      const numLeft = n.position[0] - 1;
-      const numRight = n.position[0] + n.length;
-      const numTop = n.position[1] - 1;
-      const numBottom = n.position[1] + 1;
+      const numLeft = n.position[0];
+      const numRight = n.position[0] + n.length - 1;
+      const numTop = n.position[1];
+      const numBottom = n.position[1];
+
+      const rect: [number, number, number, number] = [left, top, right, bottom];
 
       return (
-        n.position[0] >= left &&
-        n.position[0] <= right &&
-        n.position[1] >= top &&
-        n.position[1] <= bottom
+        pointInRect([numLeft, numTop], rect) ||
+        pointInRect([numRight, numTop], rect) ||
+        pointInRect([numLeft, numBottom], rect) ||
+        pointInRect([numRight, numBottom], rect)
       );
     });
 
@@ -47,10 +51,13 @@ function findGears(input: string) {
   return gears;
 }
 
-// top-right, bottom-left
-function rectsIntersect(a:[[number, number], [number, number]], b: [[number, number], [number, number]]) {
-  const leftRect = a[0][0] < b[0][0] ? a : b;
-  const rightRect = a[0][0] < b[0][0] ? b : a;
+// rect: left, top, right, bottom
+function pointInRect(
+  point: [number, number],
+  rect: [number, number, number, number]
+) {
+  const x = point[0] >= rect[0] && point[0] <= rect[2];
+  const y = point[1] >= rect[1] && point[1] <= rect[3];
 
-  
+  return x && y;
 }
