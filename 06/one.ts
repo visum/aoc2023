@@ -1,6 +1,12 @@
-import { readRaces } from "./common.ts";
-const input = await Deno.readTextFile("./test.txt");
+import { readRaces, getNumOptionsOverRecord } from "./common.ts";
+const input = await Deno.readTextFile("./input.txt");
 
 const races = readRaces(input);
 
-console.log(races);
+const result = races.reduce(
+  (acc, race) => acc * getNumOptionsOverRecord(race),
+  1
+);
+
+console.log(result);
+
