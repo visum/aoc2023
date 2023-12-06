@@ -1,8 +1,7 @@
-import { getLines } from "../common.ts";
 import { ItemMap, getMapDefinitions } from "./common.ts";
 
-const input = await Deno.readTextFile("./test.txt");
-const lines = getLines(input);
+const input = await Deno.readTextFile("./input.txt");
+const lines = input.split("\n");
 
 const seeds = lines[0]
   .split(": ")[1]
@@ -18,7 +17,11 @@ const mappings = mappingDefinitions.map(
 );
 
 const seedLocations = seeds.map((seed) => {
-  return mappings.reduce((last, current) => current.getMappedValue(last), seed);
+  return mappings.reduce((last, current) => {
+    const result = current.getMappedValue(last);
+    // console.log(current.sourceType, current.targetType, last, result);
+    return result;
+  }, seed);
 });
 
-console.log(seeds, seedLocations);
+console.log(seedLocations.sort((a, b) => a - b)[0]);
