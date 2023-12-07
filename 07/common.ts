@@ -72,7 +72,7 @@ function matchOnePair(cards: Hand) {
 }
 
 function matchHighCard(cards: Hand) {
-  return cards.map((c) => getCardValue(c)).sort((a, b) => b - a)[0];
+  return 10;
 }
 
 export function groupCards(cards: Hand) {

@@ -23,7 +23,9 @@ plays.sort((a, b) => {
 const totalWinnings = plays.reduce((acc, play, index) => {
   const rank = rankHand(play.cards);
   const numberValue = handToNumberValue(play.cards);
-  console.log(`${index}\t${play.cards.join("")}\t${rank}\t${numberValue}`);
+  console.log(
+    `${index + 1}\t${play.cards.join("")}\t${rank}\t${numberValue}\t${play.bid}`
+  );
   return acc + play.bid * (index + 1);
 }, 0);
 
