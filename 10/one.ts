@@ -1,8 +1,7 @@
 import { tty } from "https://deno.land/x/cliffy@v1.0.0-rc.3/ansi/tty.ts";
-import { sleep } from "https://deno.land/x/sleep/mod.ts";
 const myTty = tty({ writer: Deno.stdout, reader: Deno.stdin });
-const encoder = new TextEncoder();
-// The S is a 7
+
+// The S is a 7. I didn't figure that out programmatically.
 
 const input = await Deno.readTextFile("./_input.txt");
 
